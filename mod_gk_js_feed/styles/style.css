@@ -66,8 +66,9 @@
 }
 
 /* Photo content type */
-.gkJSFeedType-photo > a,
-.gkJSFeedType-photo > img {
+.gkJSFeedType-photo > a {
+	background-position: center center;
+	background-size: cover;
 	height: 100%;
 	position: absolute;
 	width: 100%;
@@ -77,6 +78,7 @@
 	margin: 0;
 	padding: 25px;
 	position: absolute;
+	z-index: 1;
 }
 .gkJSFeedType-photo > .gkStatusText-top {
 	top: 0;

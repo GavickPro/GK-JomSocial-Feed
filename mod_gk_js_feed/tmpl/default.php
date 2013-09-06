@@ -43,12 +43,13 @@ defined('_JEXEC') or die('Restricted access');
 		<?php endif; ?>
 	<?php else : ?>
 		<?php if($status['url'] != '') : ?>
+			<?php
+				$uri = JURI::getInstance();
+			?>
 			<?php if($status['text'] == '') : ?>
-				<a href="<?php echo $status['url']; ?>">
-					<img src="<?php echo $status['photo']; ?>" alt="" />
-				</a>
+				<a href="<?php echo $status['url']; ?>" style="background-image: url('<?php echo $uri->root() . $status['photo']; ?>');"></a>
 			<?php else : ?>
-				<img src="<?php echo $status['photo']; ?>" alt="" />
+				<a href="<?php echo $status['url']; ?>" style="background-image: url('<?php echo $uri->root() . $status['photo']; ?>');"></a>
 				<h3 class="gkStatusText-<?php echo $this->config['text_position']; ?> gkStatusText-<?php echo $this->config['text_color']; ?>"><a href="<?php echo $status['url']; ?>"><?php echo $status['text']; ?></a></h3>
 			<?php endif; ?>
 		<?php else : ?>
