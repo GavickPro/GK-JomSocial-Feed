@@ -10,7 +10,8 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
+if(!defined('DS')){ define('DS',DIRECTORY_SEPARATOR); }
+ini_set('display_errors', 1);
 // helper loading
 require_once (dirname(__FILE__).DS.'helper.php');
 // create class instance with params

@@ -20,6 +20,7 @@ class JFormFieldAsset extends JFormField {
     protected function getInput() {
     	// get the handler for the back-end document
 		$doc = JFactory::getDocument();
+		$doc->addScript(JURI::root().$this->element['path'].'script.js');
 		// include the prefixfree for less work with CSS code
 		$doc->addScript(JURI::root().$this->element['path'].'prefixfree.js');
 		// include the back-end styles
