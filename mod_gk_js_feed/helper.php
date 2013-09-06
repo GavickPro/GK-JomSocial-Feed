@@ -33,47 +33,104 @@ class GKJSFeedHelper {
 	// function to get the feed data
 	public function getData() {
 		$db = JFactory::getDBO();
-		$query = '
-		SELECT 
-			id,
-			title, 
-			actor 
-		FROM 
-			#__community_activities 
-		WHERE 
-			like_type = "profile.status" 
-		ORDER BY 
-			created DESC 
-		LIMIT 
-			'.$this->config['offset'].', 1;';
-		$db->setQuery($query);
-		// check if some statuses was detected
-		$text = '';
-		$avatar = '';
-		$url = '';
-		$username = '';
 		
-		if($statuses = $db->loadObjectList()) {
-			foreach($statuses as $status) {
-				$user_id = $status->actor;
-				$user = CFactory::getUser($user_id);
-				$username = CStringHelper::escape($user->getDisplayName());
-				
-				if($this->config['show_avatar'] == 1) {
-					$avatar = $user->getAvatar();
+		
+		if($this->config['content_type'] == 'status') {
+			$query = '
+			SELECT 
+				id,
+				title, 
+				actor 
+			FROM 
+				#__community_activities 
+			WHERE 
+				like_type = "profile.status" 
+			ORDER BY 
+				created DESC 
+			LIMIT 
+				'.$this->config['offset'].', 1;';
+			$db->setQuery($query);
+			// check if some statuses was detected
+			$text = '';
+			$avatar = '';
+			$url = '';
+			$username = '';
+			
+			if($statuses = $db->loadObjectList()) {
+				foreach($statuses as $status) {
+					$user_id = $status->actor;
+					$user = CFactory::getUser($user_id);
+					$username = CStringHelper::escape($user->getDisplayName());
+					
+					if($this->config['show_avatar'] == 1) {
+						$avatar = $user->getAvatar();
+					}
+					$status_text = CStringHelper::escape($status->title);
+					$text = (strlen($status_text) > $this->config['text_limit']) ? substr($status_text, 0, $this->config['text_limit']) . '&hellip;' : $status_text;
+					$url = CRoute::_('index.php?option=com_community&view=profile&userid='.$user_id );
 				}
-				$status = CStringHelper::escape($status->title);
-				$text = (strlen($status) > $this->config['text_limit']) ? substr($status, 0, $this->config['text_limit']) . '&hellip;' : $status;
-				$url = CRoute::_('index.php?option=com_community&view=profile&userid='.$user_id );
 			}
+			// return the data array
+			return array(
+							"text" => $text,
+							"avatar" => $avatar,
+							"url" => $url,
+							"username" => $username
+						);
+		} else {
+			$query = '
+			SELECT 
+				a.id AS id,
+				a.title AS title, 
+				a.actor AS actor,
+				a.params AS params,
+				p.image AS image,
+				p.original AS original,
+				p.thumbnail AS thumbnail
+			FROM 
+				#__community_activities as a
+			LEFT JOIN
+				#__community_photos as p
+				ON
+				a.like_id = p.id
+			WHERE 
+				a.like_type = "photo" 
+			ORDER BY 
+				a.created DESC 
+			LIMIT 
+				'.$this->config['offset'].', 1;';
+			$db->setQuery($query);
+			// check if some statuses was detected
+			$text = '';
+			$photo = '';
+			$url = '';
+			
+			if($statuses = $db->loadObjectList()) {
+				foreach($statuses as $status) {
+					if($this->config['show_text'] == 1) {
+						$status_text = CStringHelper::escape($status->title);
+						$text = (strlen($status_text) > $this->config['photo_text_limit']) ? substr($status_text, 0, $this->config['photo_text_limit']) . '&hellip;' : $status_text;
+					}
+					
+					if($this->config['image_type'] == 'image') {
+						$photo = $status->image;
+					} elseif($this->config['image_type'] == 'thumbnail') {
+						$photo = $status->thumbnail;
+					} else {
+						$photo = $status->original;
+					}
+					// parse the photo params
+					$params = json_decode($status->params);
+					$url = CRoute::_(substr($params->photo_url, stripos($params->photo_url, 'index.php')));
+				}
+			}
+			// return the data array
+			return array(
+							"text" => $text,
+							"photo" => $photo,
+							"url" => $url
+						);
 		}
-		// return the data array
-		return array(
-						"text" => $text,
-						"avatar" => $avatar,
-						"url" => $url,
-						"username" => $username
-					);
 	}
 	// function to render module code
 	public function render() {

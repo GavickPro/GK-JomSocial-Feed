@@ -44,6 +44,11 @@
 				
 				<field name="moduleclass_sfx" type="text" default="" label="MOD_JS_FEED_MODCLASSSUFFIX" description="MOD_JS_FEED_MODCLASSSUFFIX_DESC" />
 				
+				<field name="content_type" type="list" default="status" label="MOD_JS_FEED_CONTENT_TYPE" description="MOD_JS_FEED_CONTENT_TYPE_DESC">
+				        <option value="status">MOD_JS_FEED_STATUS</option>
+				        <option value="photo">MOD_JS_FEED_PHOTO</option>
+				</field>
+				
 				<field name="data_source" type="list" default="latest" label="MOD_JS_FEED_DATA_SOURCE" description="MOD_JS_FEED_DATA_SOURCE_DESC">
 				        <option value="latest">MOD_JS_FEED_LATEST_STATUSES</option>
 				        <option value="user_feed">MOD_JS_FEED_USER_FEED</option>
@@ -52,7 +57,9 @@
 				<field name="user_id" type="text" default="" label="MOD_JS_FEED_USER_ID" description="MOD_JS_FEED_USER_ID_DESC" />
 				
 				<field name="offset" type="text" default="0" label="MOD_JS_FEED_OFFSET" description="MOD_JS_FEED_OFFSET_DESC" />
-				
+			</fieldset>
+			
+			<fieldset name="JS_FEED_STATUS">
 				<field name="show_avatar" type="list" default="0" label="MOD_JS_FEED_SHOW_AVATAR" description="MOD_JS_FEED_SHOW_AVATAR_DESC">
 				        <option value="0">MOD_JS_FEED_DISABLED</option>
 				        <option value="1">MOD_JS_FEED_ENABLED</option>
@@ -76,6 +83,31 @@
 				<field name="readon_text" type="text" default="Read more" label="MOD_JS_FEED_READON_TEXT" description="MOD_JS_FEED_READON_TEXT_DESC" />
 				
 				<field name="text_limit" type="text" default="100" label="MOD_JS_FEED_TEXT_LIMIT" description="MOD_JS_FEED_TEXT_LIMIT_DESC" />
+			</fieldset>
+			
+			<fieldset name="JS_FEED_PHOTO">
+				<field name="image_type" type="list" default="image" label="MOD_JS_FEED_IMAGE_TYPE" description="MOD_JS_FEED_IMAGE_TYPE_DESC">
+				        <option value="original">MOD_JS_FEED_ORIGINAL</option>
+				        <option value="image">MOD_JS_FEED_IMAGE</option>
+				        <option value="thumbnail">MOD_JS_FEED_THUMBNAIL</option>
+				</field>
+				
+				<field name="show_text" type="list" default="0" label="MOD_JS_FEED_SHOW_TEXT" description="MOD_JS_FEED_SHOW_TEXT_DESC">
+				        <option value="0">MOD_JS_FEED_DISABLED</option>
+				        <option value="1">MOD_JS_FEED_ENABLED</option>
+				</field>
+				
+				<field name="text_position" type="list" default="bottom" label="MOD_JS_FEED_TEXT_POSITION" description="MOD_JS_FEED_TEXT_POSITION_DESC">
+				        <option value="top">MOD_JS_FEED_TOP</option>
+				        <option value="bottom">MOD_JS_FEED_BOTTOM</option>
+				</field>
+				
+				<field name="text_color" type="list" default="light" label="MOD_JS_FEED_TEXT_COLOR" description="MOD_JS_FEED_TEXT_COLOR_DESC">
+				        <option value="dark">MOD_JS_FEED_DARK</option>
+				        <option value="light">MOD_JS_FEED_LIGHT</option>
+				</field>
+				
+				<field name="photo_text_limit" type="text" default="100" label="MOD_JS_FEED_TEXT_LIMIT" description="MOD_JS_FEED_TEXT_LIMIT_DESC" />
 			</fieldset>
 
 			<!-- advanced -->
