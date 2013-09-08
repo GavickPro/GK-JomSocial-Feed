@@ -18,24 +18,40 @@
 .gkJSFeed > .gkAvatar,
 .gkJSFeed > .gkAvatar + .gkStatus {
 	float: left;
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0);
+	-o-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 	width: 50%;
 }
 .gkJSFeed > .gkStatus {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	line-height: 1.4;
 	padding: 25px;
 }
 .gkJSFeed > .gkAvatar-right {
 	float: right;
 }
 .gkJSFeed > .gkAvatar > img {
+	opacity: 1; filter: alpha(opacity=100);
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
 	width: 100%;
 }
+.gkJSFeed > .gkAvatar:hover > img {
+	opacity: 0.85; filter: alpha(opacity=85);
+}
 .gkJSFeed .gkUsername {
+	display: block;
 	font-size: 16px;
 	font-weight: 500;
-	padding: 15px 0;
+	padding: 8px 0 14px;
 	text-transform: uppercase;
 }
 .gkJSFeed .gkUsername,
@@ -47,16 +63,17 @@
 .gkJSFeed p,
 .gkJSFeed p a {
 	color: #999;
-	font-size: 13px;
-	line-height: 1.3;
+	font-size: 14px;
+	line-height: 1.4;
 }
+.gkJSFeed p { margin: 0 0 10px}
 .gkJSFeed p a:active,
 .gkJSFeed p a:focus,
 .gkJSFeed p a:hover,
 .gkJSFeed .gkUsername:active,
 .gkJSFeed .gkUsername:focus,
 .gkJSFeed .gkUsername:hover {
-	color: #db4a37;
+	color: #272727;
 }
 .gkJSFeed .gkReadon {
 	color: #db4a37;
@@ -70,8 +87,22 @@
 	background-position: center center;
 	background-size: cover;
 	height: 100%;
+	opacity: 1; filter: alpha(opacity=100);
 	position: absolute;
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	transition: all .3s ease-out;
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0);
+	-o-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 	width: 100%;
+}
+.gkJSFeedType-photo > a:hover {
+	opacity: 0.85; fitler: alpha(opacity=85);
 }
 .gkJSFeedType-photo > h3 {
 	left: 0;
@@ -96,4 +127,21 @@
 .gkJSFeedType-photo > h3 a:focus,
 .gkJSFeedType-photo > h3 a:hover {
 	color: #db4a37;
+}
+
+@media (max-width:800px) {
+	.gkJSFeed > .gkStatus {
+		padding: 15px;
+	}
+	.gkJSFeed .gkUsername {
+		font-size: 14px;
+		padding: 4px 0 10px;
+	}
+	.gkJSFeed p,
+	.gkJSFeed p a {
+		font-size: 12px;
+	}
+	.gkJSFeed .gkReadon {
+		font-size: 11px;
+	}
 }

@@ -11,12 +11,16 @@
 // no direct access
 defined('_JEXEC') or die;
 if(!defined('DS')){ define('DS',DIRECTORY_SEPARATOR); }
-ini_set('display_errors', 1);
-// helper loading
-require_once (dirname(__FILE__).DS.'helper.php');
-// create class instance with params
-$helper = new GKJSFeedHelper($module, $params); 
-// creating HTML code	
-$helper->render();
+
+if(is_file(JPATH_BASE . '/components/com_community/libraries/core.php')) {
+	// helper loading
+	require_once (dirname(__FILE__).DS.'helper.php');
+	// create class instance with params
+	$helper = new GKJSFeedHelper($module, $params); 
+	// creating HTML code	
+	$helper->render();
+} else {
+	echo 'Please install JomSocial first!';
+}
 
 // EOF
