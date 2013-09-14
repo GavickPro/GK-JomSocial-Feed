@@ -2,12 +2,12 @@
 <extension type="module" version="3.0" client="site" method="upgrade">
 	<name>GK JomSocial Feed</name>
 	<author>GavickPro</author>
-	<creationDate>05/09/2013</creationDate>
+	<creationDate>14/09/2013</creationDate>
 	<copyright>Copyright (C) 2013 GavickPro. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later</license>
 	<authorEmail>info@gavick.com</authorEmail>
 	<authorUrl>www.gavickpro.com</authorUrl>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<description><![CDATA[
 		<style type="text/css">
 			span.readonly { padding: 10px; font-family: Arial; font-size:13px !important; font-weight: normal !important; text-align: justify; color: #4d4d4d; line-height: 24px; }
@@ -18,7 +18,7 @@
 			span.readonly p.license { border-top: 1px solid #eee; font-size: 11px; margin: 30px 26px 0; padding: 6px 0; }
 		</style>
 		
-		<span class="readonly"><h1>GK JomSocial Feed<small>ver. 1.0</small></h1><p>With the GK JomSocial Feed module, you can implement space-saving blocks on websites and incorporate a variety of JomSocial statuses. There are a few useful options for selecting specific statuses.</p></p><p class='license'>GK JomSocial Feed is released under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU/GPL v2 license.</a></p></span>
+		<span class="readonly"><h1>GK JomSocial Feed<small>ver. 1.0.1</small></h1><p>With the GK JomSocial Feed module, you can implement space-saving blocks on websites and incorporate a variety of JomSocial statuses. There are a few useful options for selecting specific statuses.</p></p><p class='license'>GK JomSocial Feed is released under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU/GPL v2 license.</a></p></span>
 	]]></description>
 	<files>
 		<filename module="mod_gk_js_feed">mod_gk_js_feed.php</filename>

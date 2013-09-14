@@ -33,7 +33,11 @@ class GKJSFeedHelper {
 	// function to get the feed data
 	public function getData() {
 		$db = JFactory::getDBO();
-		
+		$actor_condition = '';
+		     
+		if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id']) {
+			$actor_condition = ' AND a.actor = ' . $this->config['user_id'] . ' ';
+		}
 		
 		if($this->config['content_type'] == 'status') {
 			$query = '
@@ -45,6 +49,7 @@ class GKJSFeedHelper {
 				#__community_activities 
 			WHERE 
 				like_type = "profile.status" 
+				'.$actor_condition.'
 			ORDER BY 
 				created DESC 
 			LIMIT 
@@ -95,6 +100,7 @@ class GKJSFeedHelper {
 				a.like_id = p.id
 			WHERE 
 				a.like_type = "photo" 
+				'.$actor_condition.'
 			ORDER BY 
 				a.created DESC 
 			LIMIT 
