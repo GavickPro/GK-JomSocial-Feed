@@ -35,7 +35,7 @@ class GKJSFeedHelper {
 		$db = JFactory::getDBO();
 		$actor_condition = '';
 		     
-		if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id']) {
+		if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id'])) {
 			$actor_condition = ' AND a.actor = ' . $this->config['user_id'] . ' ';
 		}
 		
