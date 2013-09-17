@@ -34,11 +34,11 @@ class GKJSFeedHelper {
 	public function getData() {
 		$db = JFactory::getDBO();
 		$actor_condition = '';
-		
+
 		if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id'])) {
 			$actor_condition = ' AND a.actor = ' . $this->config['user_id'] . ' ';
 		}
-		
+
 		if($this->config['content_type'] == 'status') {
 			$query = '
 			SELECT 
@@ -46,12 +46,12 @@ class GKJSFeedHelper {
 				title, 
 				actor 
 			FROM 
-				#__community_activities 
+				#__community_activities AS a
 			WHERE 
-				like_type = "profile.status" 
+				a.like_type = "profile.status" 
 				'.$actor_condition.'
 			ORDER BY 
-				created DESC 
+				a.created DESC 
 			LIMIT 
 				'.$this->config['offset'].', 1;';
 			$db->setQuery($query);
@@ -60,13 +60,13 @@ class GKJSFeedHelper {
 			$avatar = '';
 			$url = '';
 			$username = '';
-			
+
 			if($statuses = $db->loadObjectList()) {
 				foreach($statuses as $status) {
 					$user_id = $status->actor;
 					$user = CFactory::getUser($user_id);
 					$username = CStringHelper::escape($user->getDisplayName());
-					
+
 					if($this->config['show_avatar'] == 1) {
 						$avatar = $user->getAvatar();
 					}
@@ -99,7 +99,13 @@ class GKJSFeedHelper {
 				ON
 				a.like_id = p.id
 			WHERE 
-				a.like_type = "photo" 
+				(
+					a.like_type = "photo" 
+					OR
+					a.like_type = "albums"
+				)
+				AND 
+				p.id IS NOT NULL
 				'.$actor_condition.'
 			ORDER BY 
 				a.created DESC 
@@ -110,14 +116,14 @@ class GKJSFeedHelper {
 			$text = '';
 			$photo = '';
 			$url = '';
-			
+
 			if($statuses = $db->loadObjectList()) {
 				foreach($statuses as $status) {
 					if($this->config['show_text'] == 1) {
 						$status_text = CStringHelper::escape($status->title);
 						$text = (strlen($status_text) > $this->config['photo_text_limit']) ? substr($status_text, 0, $this->config['photo_text_limit']) . '&hellip;' : $status_text;
 					}
-					
+
 					if($this->config['image_type'] == 'image') {
 						$photo = $status->image;
 					} elseif($this->config['image_type'] == 'thumbnail') {
