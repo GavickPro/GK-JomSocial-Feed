@@ -46,12 +46,12 @@ class GKJSFeedHelper {
 				title, 
 				actor 
 			FROM 
-				#__community_activities 
+				#__community_activities AS a
 			WHERE 
-				like_type = "profile.status" 
+				a.like_type = "profile.status" 
 				'.$actor_condition.'
 			ORDER BY 
-				created DESC 
+				a.created DESC 
 			LIMIT 
 				'.$this->config['offset'].', 1;';
 			$db->setQuery($query);
@@ -99,7 +99,13 @@ class GKJSFeedHelper {
 				ON
 				a.like_id = p.id
 			WHERE 
-				a.like_type = "photo" 
+				(
+					a.like_type = "photo"
+					OR
+					a.like_type = "albums" 
+				)
+				AND
+				p.id IS NOT NULL 
 				'.$actor_condition.'
 			ORDER BY 
 				a.created DESC 
