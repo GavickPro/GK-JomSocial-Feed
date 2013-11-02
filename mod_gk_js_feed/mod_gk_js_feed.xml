@@ -2,12 +2,12 @@
 <extension type="module" version="1.6.0" client="site" method="upgrade">
 	<name>GK JomSocial Feed</name>
 	<author>GavickPro</author>
-	<creationDate>18/09/2013</creationDate>
+	<creationDate>02/11/2013</creationDate>
 	<copyright>Copyright (C) 2013 GavickPro. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later</license>
 	<authorEmail>info@gavick.com</authorEmail>
 	<authorUrl>www.gavickpro.com</authorUrl>
-	<version>1.0.2</version>
+	<version>1.1</version>
 	<description><![CDATA[
 		<style type="text/css">
 			span.readonly { padding: 10px; font-family: Arial; font-size:13px !important; font-weight: normal !important; text-align: justify; color: #4d4d4d; line-height: 24px; }
@@ -18,7 +18,7 @@
 			span.readonly p.license { border-top: 1px solid #eee; font-size: 11px; margin: 30px 26px 0; padding: 6px 0; }
 		</style>
 		
-		<span class="readonly"><h1>GK JomSocial Feed<small>ver. 1.0.2</small></h1><p>With the GK JomSocial Feed module, you can implement space-saving blocks on websites and incorporate a variety of JomSocial statuses. There are a few useful options for selecting specific statuses.</p></p><p class='license'>GK JomSocial Feed is released under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU/GPL v2 license.</a></p></span>
+		<span class="readonly"><h1>GK JomSocial Feed<small>ver. 1.1</small></h1><p>With the GK JomSocial Feed module, you can implement space-saving blocks on websites and incorporate a variety of JomSocial statuses. There are a few useful options for selecting specific statuses.</p></p><p class='license'>GK JomSocial Feed is released under the <a target="_blank" href="http://www.gnu.org/licenses/gpl-2.0.html">GNU/GPL v2 license.</a></p></span>
 	]]></description>
 	<files>
 		<filename module="mod_gk_js_feed">mod_gk_js_feed.php</filename>
@@ -47,6 +47,7 @@
 				<field name="content_type" type="list" default="status" label="MOD_JS_FEED_CONTENT_TYPE" description="MOD_JS_FEED_CONTENT_TYPE_DESC">
 				        <option value="status">MOD_JS_FEED_STATUS</option>
 				        <option value="photo">MOD_JS_FEED_PHOTO</option>
+				        <option value="user">MOD_JS_FEED_USER</option>
 				</field>
 				
 				<field name="data_source" type="list" default="latest" label="MOD_JS_FEED_DATA_SOURCE" description="MOD_JS_FEED_DATA_SOURCE_DESC">

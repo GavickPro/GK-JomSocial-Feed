@@ -82,7 +82,7 @@ class GKJSFeedHelper {
 							"url" => $url,
 							"username" => $username
 						);
-		} else {
+		} elseif($this->config['content_type'] == 'photo') {
 			$query = '
 			SELECT 
 				a.id AS id,
@@ -141,6 +141,46 @@ class GKJSFeedHelper {
 							"text" => $text,
 							"photo" => $photo,
 							"url" => $url
+						);
+		} elseif($this->config['content_type'] == 'user') {
+			$user_condition = '';
+			
+			if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id'])) {
+				$user_condition = ' u.userid = ' . $this->config['user_id'] . ' ';
+			} else {
+				$user_condition = ' 1=1 ORDER BY u.userid DESC';
+			}
+			
+			$query = '
+			SELECT 
+				userid
+			FROM 
+				#__community_users AS u
+			WHERE 
+				'.$user_condition.'
+			LIMIT 
+				'.$this->config['offset'].', 1;';
+				
+			$db->setQuery($query);
+			// check if some statuses was detected
+			$avatar = '';
+			$url = '';
+			$username = '';
+
+			if($statuses = $db->loadObjectList()) {
+				foreach($statuses as $status) {
+					$user_id = $status->userid;
+					$user = CFactory::getUser($user_id);
+					$username = CStringHelper::escape($user->getDisplayName());
+					$avatar = $user->getAvatar();
+					$url = CRoute::_('index.php?option=com_community&view=profile&userid='.$user_id );
+				}
+			}
+			// return the data array
+			return array(
+							"avatar" => $avatar,
+							"url" => $url,
+							"username" => $username
 						);
 		}
 	}
