@@ -49,6 +49,7 @@ class GKJSFeedHelper {
 				#__community_activities AS a
 			WHERE 
 				a.like_type = "profile.status" 
+				AND a.access = 0
 				'.$actor_condition.'
 			ORDER BY 
 				a.created DESC 
@@ -83,9 +84,14 @@ class GKJSFeedHelper {
 							"username" => $username
 						);
 		} elseif($this->config['content_type'] == 'photo') {
+			if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id'])) {
+				$actor_condition = ' AND p.creator = ' . $this->config['user_id'] . ' ';
+			}
+			
 			$query = '
 			SELECT 
 				p.id AS id,
+				p.creator AS uid,
 				p.albumid AS aid, 
 				u.alias AS alias,
 				p.caption AS text,
@@ -100,7 +106,8 @@ class GKJSFeedHelper {
 				p.creator = u.userid
 			WHERE 
 				p.id IS NOT NULL 
-				AND p.creator = '.$this->config['user_id'].' 
+				AND p.published = 1
+				'.$actor_condition.'
 			ORDER BY 
 				p.id DESC
 			LIMIT 
@@ -127,7 +134,7 @@ class GKJSFeedHelper {
 						$photo = $status->original;
 					}
 					// parse the photo params
-					$url = CRoute::_('index.php/jomsocial/' . $status->alias . '/photos/photo?albumid=' . $status->aid . '&photoid=' . $status->id);
+					$url = CRoute::_('index.php?option=com_community&view=photos&task=photo&albumid=' . $status->aid . '&photoid=' . $status->id . '&userid=' . $status->uid);
 				}
 			}
 			// return the data array
