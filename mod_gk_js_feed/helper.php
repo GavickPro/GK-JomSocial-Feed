@@ -82,7 +82,7 @@ class GKJSFeedHelper {
 							"url" => $url,
 							"username" => $username
 						);
-		} elseif($this->config['content_type'] == 'photo' {
+		} elseif($this->config['content_type'] == 'photo') {
 			$query = '
 			SELECT 
 				p.id AS id,
