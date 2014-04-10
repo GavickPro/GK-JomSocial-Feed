@@ -34,11 +34,11 @@ class GKJSFeedHelper {
 	public function getData() {
 		$db = JFactory::getDBO();
 		$actor_condition = '';
-
+		     
 		if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id'])) {
 			$actor_condition = ' AND a.actor = ' . $this->config['user_id'] . ' ';
 		}
-
+		
 		if($this->config['content_type'] == 'status') {
 			$query = '
 			SELECT 
@@ -60,13 +60,13 @@ class GKJSFeedHelper {
 			$avatar = '';
 			$url = '';
 			$username = '';
-
+			
 			if($statuses = $db->loadObjectList()) {
 				foreach($statuses as $status) {
 					$user_id = $status->actor;
 					$user = CFactory::getUser($user_id);
 					$username = CStringHelper::escape($user->getDisplayName());
-
+					
 					if($this->config['show_avatar'] == 1) {
 						$avatar = $user->getAvatar();
 					}
@@ -82,33 +82,27 @@ class GKJSFeedHelper {
 							"url" => $url,
 							"username" => $username
 						);
-		} elseif($this->config['content_type'] == 'photo') {
+		} else {
 			$query = '
 			SELECT 
-				a.id AS id,
-				a.title AS title, 
-				a.actor AS actor,
-				a.params AS params,
+				p.id AS id,
+				p.albumid AS aid, 
+				u.alias AS alias,
+				p.caption AS text,
 				p.image AS image,
 				p.original AS original,
 				p.thumbnail AS thumbnail
 			FROM 
-				#__community_activities as a
-			LEFT JOIN
 				#__community_photos as p
+			LEFT JOIN
+				#__community_users as u
 				ON
-				a.like_id = p.id
+				p.creator = u.userid
 			WHERE 
-				(
-					a.like_type = "photo" 
-					OR
-					a.like_type = "albums"
-				)
-				AND 
-				p.id IS NOT NULL
-				'.$actor_condition.'
+				p.id IS NOT NULL 
+				AND p.creator = '.$this->config['user_id'].' 
 			ORDER BY 
-				a.created DESC 
+				p.id DESC
 			LIMIT 
 				'.$this->config['offset'].', 1;';
 			$db->setQuery($query);
@@ -116,14 +110,15 @@ class GKJSFeedHelper {
 			$text = '';
 			$photo = '';
 			$url = '';
-
+			
+			
 			if($statuses = $db->loadObjectList()) {
 				foreach($statuses as $status) {
 					if($this->config['show_text'] == 1) {
-						$status_text = CStringHelper::escape($status->title);
+						$status_text = CStringHelper::escape($status->caption);
 						$text = (strlen($status_text) > $this->config['photo_text_limit']) ? substr($status_text, 0, $this->config['photo_text_limit']) . '&hellip;' : $status_text;
 					}
-
+					
 					if($this->config['image_type'] == 'image') {
 						$photo = $status->image;
 					} elseif($this->config['image_type'] == 'thumbnail') {
@@ -132,8 +127,7 @@ class GKJSFeedHelper {
 						$photo = $status->original;
 					}
 					// parse the photo params
-					$params = json_decode($status->params);
-					$url = CRoute::_(substr($params->photo_url, stripos($params->photo_url, 'index.php')));
+					$url = CRoute::_('index.php/jomsocial/' . $status->alias . '/photos/photo?albumid=' . $status->aid . '&photoid=' . $status->id);
 				}
 			}
 			// return the data array
