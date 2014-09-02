@@ -2,12 +2,12 @@
 <extension type="module" version="3.0" client="site" method="upgrade">
 	<name>GK JomSocial Feed</name>
 	<author>GavickPro</author>
-	<creationDate>18/09/2013</creationDate>
-	<copyright>Copyright (C) 2013 GavickPro. All rights reserved.</copyright>
+	<creationDate>02 Sep 2014</creationDate>
+	<copyright>Copyright (C) 2014 GavickPro. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later</license>
 	<authorEmail>info@gavick.com</authorEmail>
 	<authorUrl>www.gavickpro.com</authorUrl>
-	<version>1.0.2</version>
+	<version>1.2</version>
 	<description><![CDATA[
 		<style type="text/css">
 			span.readonly { padding: 10px; font-family: Arial; font-size:13px !important; font-weight: normal !important; text-align: justify; color: #4d4d4d; line-height: 24px; }
@@ -47,6 +47,7 @@
 				<field name="content_type" type="radio" class="btn-group" default="status" label="MOD_JS_FEED_CONTENT_TYPE" description="MOD_JS_FEED_CONTENT_TYPE_DESC">
 				        <option value="status">MOD_JS_FEED_STATUS</option>
 				        <option value="photo">MOD_JS_FEED_PHOTO</option>
+				        <option value="user">MOD_JS_FEED_USER</option>
 				</field>
 				
 				<field name="data_source" type="list" default="latest" label="MOD_JS_FEED_DATA_SOURCE" description="MOD_JS_FEED_DATA_SOURCE_DESC">

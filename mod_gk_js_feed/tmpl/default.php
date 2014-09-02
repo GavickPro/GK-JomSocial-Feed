@@ -41,7 +41,7 @@ defined('_JEXEC') or die('Restricted access');
 		<?php else : ?>
 			<?php echo JText::_('MOD_JS_FEED_NO_STATUS'); ?>
 		<?php endif; ?>
-	<?php else : ?>
+	<?php elseif($this->config['content_type'] == 'photo') : ?>
 		<?php if($status['url'] != '') : ?>
 			<?php
 				$uri = JURI::getInstance();
@@ -54,6 +54,12 @@ defined('_JEXEC') or die('Restricted access');
 			<?php endif; ?>
 		<?php else : ?>
 			<?php echo JText::_('MOD_JS_FEED_NO_STATUS'); ?>
+		<?php endif; ?>
+	<?php elseif($this->config['content_type'] == 'user'): ?>
+		<?php if($status['avatar'] != '') : ?>
+		<a href="<?php echo $status['url']; ?>" class="gkAvatar" style="background-image: url('<?php echo $status['avatar']; ?>');">
+			<span><em><?php echo $status['username']; ?></em></span>
+		</a>
 		<?php endif; ?>
 	<?php endif; ?>
 </div>

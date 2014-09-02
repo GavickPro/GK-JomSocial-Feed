@@ -4,7 +4,7 @@
 * Helper class for GK JS Feed module
 *
 * GK JS Feed
-* @Copyright (C) 2013 Gavick.com
+* @Copyright (C) 2014 Gavick.com
 * @ All rights reserved
 * @ Released under GNU/GPL License : http://www.gnu.org/copyleft/gpl.html
 * @ version $Revision: GK5 1.0 $
@@ -49,6 +49,7 @@ class GKJSFeedHelper {
 				#__community_activities AS a
 			WHERE 
 				a.like_type = "profile.status" 
+				AND a.access = 0
 				'.$actor_condition.'
 			ORDER BY 
 				a.created DESC 
@@ -82,33 +83,33 @@ class GKJSFeedHelper {
 							"url" => $url,
 							"username" => $username
 						);
-		} else {
+		} elseif($this->config['content_type'] == 'photo') {
+			if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id'])) {
+				$actor_condition = ' AND p.creator = ' . $this->config['user_id'] . ' ';
+			}
+			
 			$query = '
 			SELECT 
-				a.id AS id,
-				a.title AS title, 
-				a.actor AS actor,
-				a.params AS params,
+				p.id AS id,
+				p.creator AS uid,
+				p.albumid AS aid, 
+				u.alias AS alias,
+				p.caption AS text,
 				p.image AS image,
 				p.original AS original,
 				p.thumbnail AS thumbnail
 			FROM 
-				#__community_activities as a
-			LEFT JOIN
 				#__community_photos as p
+			LEFT JOIN
+				#__community_users as u
 				ON
-				a.like_id = p.id
+				p.creator = u.userid
 			WHERE 
-				(
-					a.like_type = "photo"
-					OR
-					a.like_type = "albums" 
-				)
-				AND
 				p.id IS NOT NULL 
+				AND p.published = 1
 				'.$actor_condition.'
 			ORDER BY 
-				a.created DESC 
+				p.id DESC
 			LIMIT 
 				'.$this->config['offset'].', 1;';
 			$db->setQuery($query);
@@ -117,10 +118,11 @@ class GKJSFeedHelper {
 			$photo = '';
 			$url = '';
 			
+			
 			if($statuses = $db->loadObjectList()) {
 				foreach($statuses as $status) {
 					if($this->config['show_text'] == 1) {
-						$status_text = CStringHelper::escape($status->title);
+						$status_text = CStringHelper::escape($status->caption);
 						$text = (strlen($status_text) > $this->config['photo_text_limit']) ? substr($status_text, 0, $this->config['photo_text_limit']) . '&hellip;' : $status_text;
 					}
 					
@@ -132,8 +134,7 @@ class GKJSFeedHelper {
 						$photo = $status->original;
 					}
 					// parse the photo params
-					$params = json_decode($status->params);
-					$url = CRoute::_(substr($params->photo_url, stripos($params->photo_url, 'index.php')));
+					$url = CRoute::_('index.php?option=com_community&view=photos&task=photo&albumid=' . $status->aid . '&photoid=' . $status->id . '&userid=' . $status->uid);
 				}
 			}
 			// return the data array
@@ -141,6 +142,46 @@ class GKJSFeedHelper {
 							"text" => $text,
 							"photo" => $photo,
 							"url" => $url
+						);
+		} elseif($this->config['content_type'] == 'user') {
+			$user_condition = '';
+			
+			if(trim($this->config['user_id']) != '' && is_numeric($this->config['user_id'])) {
+				$user_condition = ' u.userid = ' . $this->config['user_id'] . ' ';
+			} else {
+				$user_condition = ' 1=1 ORDER BY u.userid DESC';
+			}
+			
+			$query = '
+			SELECT 
+				userid
+			FROM 
+				#__community_users AS u
+			WHERE 
+				'.$user_condition.'
+			LIMIT 
+				'.$this->config['offset'].', 1;';
+				
+			$db->setQuery($query);
+			// check if some statuses was detected
+			$avatar = '';
+			$url = '';
+			$username = '';
+
+			if($statuses = $db->loadObjectList()) {
+				foreach($statuses as $status) {
+					$user_id = $status->userid;
+					$user = CFactory::getUser($user_id);
+					$username = CStringHelper::escape($user->getDisplayName());
+					$avatar = $user->getAvatar();
+					$url = CRoute::_('index.php?option=com_community&view=profile&userid='.$user_id );
+				}
+			}
+			// return the data array
+			return array(
+							"avatar" => $avatar,
+							"url" => $url,
+							"username" => $username
 						);
 		}
 	}
