@@ -49,7 +49,7 @@ class GKJSFeedHelper {
 				#__community_activities AS a
 			WHERE 
 				a.like_type = "profile.status" 
-				AND a.access = 0
+				AND (a.access = 0 OR a.access = 10)
 				'.$actor_condition.'
 			ORDER BY 
 				a.created DESC 
