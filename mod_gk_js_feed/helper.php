@@ -105,7 +105,8 @@ class GKJSFeedHelper {
 				ON
 				p.creator = u.userid
 			WHERE 
-				p.id IS NOT NULL 
+				p.id IS NOT NULL AND
+				(p.permissions = \'\' OR p.permissions = \'0\' OR p.permissions = \'10\')
 				AND p.published = 1
 				'.$actor_condition.'
 			ORDER BY 
